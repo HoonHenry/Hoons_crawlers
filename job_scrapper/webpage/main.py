@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, send_file
-from bonus_lec.scrapper import get_jobs
-from bonus_lec.exporter import save_to_file
+from webpage.scrapper import get_jobs
+from .exporter import save_to_file
 
 
 app = Flask("SuperScrapper")
