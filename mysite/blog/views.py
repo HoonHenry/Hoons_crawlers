@@ -16,6 +16,9 @@ class About_View(TemplateView):
 class Job_View(TemplateView):
     template_name = 'job_scrap.html'
 
+class Stock_View(TemplateView):
+    template_name = 'stock_scrap.html'
+
 class Post_List_View(ListView):
     model = Post
 
