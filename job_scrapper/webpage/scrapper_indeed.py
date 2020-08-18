@@ -3,11 +3,10 @@ from bs4 import BeautifulSoup as soup
 
 
 LIMIT = 50
-URL = f"https://www.indeed.com/jobs?q=python&limit={LIMIT}"
 
 
-def get_last_pages():
-    result = requests.get(URL)
+def get_last_pages(url):
+    result = requests.get(url)
     parsing = soup(result.text, 'html.parser')
     pagination = parsing.find("div", {"class": "pagination"})
 
@@ -44,11 +43,11 @@ def extract_job(html):
             "link": f"https://www.indeed.com/viewjob?jk={job_id}"}
 
 
-def extract_jobs(last_pages):
+def extract_jobs(last_pages, url):
     jobs = []
     for page in range(last_pages):
         print(f"Scrapping indeed page {page+1}")
-        result = requests.get(f"{URL}&start={page*LIMIT}")
+        result = requests.get(f"{url}&start={page*LIMIT}")
         parsing = soup(result.text, 'html.parser')
         results = parsing.find_all("div", {"class": "jobsearch-SerpJobCard"})
         for result in results:
@@ -57,7 +56,8 @@ def extract_jobs(last_pages):
     return jobs
 
 
-def get_jobs():
-    last_page = get_last_pages()
-    jobs = extract_jobs(last_page)
+def get_jobs(word):
+    url = f"https://www.indeed.com/jobs?q={word}&limit={LIMIT}"
+    last_page = get_last_pages(url)
+    jobs = extract_jobs(last_page, url)
     return jobs

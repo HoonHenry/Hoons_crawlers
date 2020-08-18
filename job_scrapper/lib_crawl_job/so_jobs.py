@@ -11,6 +11,8 @@ def get_last_page():
     pages = parse.find("div", {"class": "s-pagination"}).find_all("a")
     last_page = pages[-2].get_text(strip=True)
     print(last_page)
+    if int(last_page) >= 20:
+        last_page = '20'
     return int(last_page)
 
 
@@ -30,7 +32,7 @@ def extract_job(html):
 def extract_jobs(last_page):
     jobs = []
     for page in range(last_page):
-        print(f"Scrapping Stackoverflow page {page}")
+        print(f"Scrapping Stackoverflow page {page+1}")
         result = requests.get(f"{URL}{page+1}")
         parse = soup(result.text, "html.parser")
         results = parse.find_all("div", {"class": "-job"})

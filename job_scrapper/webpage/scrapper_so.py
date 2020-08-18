@@ -8,6 +8,8 @@ def get_last_page(url):
     pages = parse.find("div", {"class": "s-pagination"}).find_all("a")
     last_page = pages[-2].get_text(strip=True)
     print(last_page)
+    if int(last_page) >= 20:
+        last_page = '20'
     return int(last_page)
 
 

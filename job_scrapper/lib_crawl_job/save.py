@@ -7,4 +7,4 @@ def save_to_file(jobs):
     writer.writerow(["title", "company", "location", "link"])
     for job in jobs:
         writer.writerow(list(job.values()))
-    return 0
+    return "A new csv file is saved"

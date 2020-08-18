@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_file
-from .scrapper import get_jobs
-from .exporter import save_to_file
+from job_scrapper.webpage.scrapper_so import get_jobs as indeed_jobs
+from job_scrapper.webpage.scrapper_indeed import get_jobs as so_jobs
+from job_scrapper.webpage.exporter import save_to_file
 
 
 app = Flask("SuperScrapper")
@@ -22,7 +23,7 @@ def report():
         if existingJobs:
             jobs = existingJobs
         else:
-            jobs = get_jobs(word)
+            jobs = indeed_jobs(word) + so_jobs(word)
             db[word] = jobs
     else:
         redirect("/")
@@ -31,7 +32,7 @@ def report():
                            jobs=jobs)
 
 
-@app.route("/export")
+@app.route("/jobs.csv")
 def export():
     try:
         word = request.args.get('word')
