@@ -38,7 +38,7 @@ def stock_code(code):
 
 
 def call_excel():
-    loc = r"/home/hoons/hoons_code/hoons_nlp_prac/stock_crawl/libs/KOSPI_manual.csv"
+    loc = r"D:\hoons_code\Hoons_crawlers\naver_stock\libs\KOSPI_manual.csv"
     file = pd.read_csv(loc)
     print(len(file["종목코드"]))
     return [file["종목코드"][i] for i in range(len(file["종목코드"][0:30]))]
