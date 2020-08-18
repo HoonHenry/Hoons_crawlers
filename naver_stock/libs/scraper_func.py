@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import re
+import csv
 
 
 def get_company_info(code):
@@ -38,32 +38,22 @@ def stock_code(code):
 
 
 def call_excel():
-    # excel = pd.read_html(r"/home/hoons/hoons_code/Hoons_crawlers/naver_stock/libs/KOSPI.xls")
-    # print(excel.head())
-    # excel.to_csv(r"/home/hoons/hoons_code/hoons_nlp_prac/stock_crawl/libs/KOSPI_auto.csv", index=None, header=True)
     loc = r"/home/hoons/hoons_code/hoons_nlp_prac/stock_crawl/libs/KOSPI_manual.csv"
     file = pd.read_csv(loc)
-    # print(len(file["종목코드"]))
-    return [file["종목코드"][i] for i in range(len(file["종목코드"][0:3]))]
+    print(len(file["종목코드"]))
+    return [file["종목코드"][i] for i in range(len(file["종목코드"][0:30]))]
 
 
-def saver(dictex):
-    for key, val in dictex.items():
-        val.to_csv("data_{}.csv".format(str(key)))
+def saver(stock_lists):
+    file = open("stocks.csv", mode="w")
+    writer = csv.writer(file)
+    writer.writerow(["name", "price", "high", "low", "start",
+                     "yesterday", "volume", "transaction"])
+    for stock in stock_lists:
+        writer.writerow(list(stock.values()))
+    return 0
 
-    with open("keys.txt", "w") as f: #saving keys to file
-        f.write(str(list(dictex.keys())))
-
-
-def loader():
-    """Reading data from keys"""
-    with open("keys.txt", "r") as f:
-        keys = eval(f.read())
-
-    dictex = {}
-    for key in keys:
-        dictex[key] = pd.read_csv("data_{}.csv".format(str(key)))
-
-    return dictex
-
-
+#
+# def show_process(nums):
+#     for i in range(1,101):
+#         print("_"*20)
